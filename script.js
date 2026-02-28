@@ -164,49 +164,71 @@ card.addEventListener('mouseleave', () => {
     card.style.transform = `rotateY(0deg) rotateX(0deg)`;
 });
 
-// Smooth "No" button escape logic
-noBtn.addEventListener("mouseover", () => {
+// Intelligent "No" button dodging logic
+noBtn.addEventListener("mousemove", (e) => {
     if (noCount >= 4) {
-        moveNoButton();
+        dodgeButton(e);
     }
 });
 
-function moveNoButton() {
-    // Get viewport dimensions
-    const padding = 50;
-    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+function dodgeButton(event) {
+    const cardRect = card.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
 
-    // Random position within safe bounds
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    // Calculate safe boundaries within the glass card
+    const margin = 20;
+    const minX = cardRect.left + margin;
+    const maxX = cardRect.right - btnRect.width - margin;
+    const minY = cardRect.top + margin;
+    const maxY = cardRect.bottom - btnRect.height - margin;
+
+    // Vector from mouse to button center
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+    const btnCenterX = btnRect.left + btnRect.width / 2;
+    const btnCenterY = btnRect.top + btnRect.height / 2;
+
+    let targetX = btnRect.left + (btnCenterX - mouseX) * 0.5;
+    let targetY = btnRect.top + (btnCenterY - mouseY) * 0.5;
+
+    // Constrain to card boundaries
+    targetX = Math.max(minX, Math.min(maxX, targetX));
+    targetY = Math.max(minY, Math.min(maxY, targetY));
+
+    // If it's hitting a wall, teleport to a random spot within the card
+    if (Math.abs(targetX - btnRect.left) < 1 && Math.abs(targetY - btnRect.top) < 1) {
+        targetX = Math.random() * (maxX - minX) + minX;
+        targetY = Math.random() * (maxY - minY) + minY;
+    }
 
     noBtn.style.position = "fixed";
-    noBtn.style.left = `${randomX}px`;
-    noBtn.style.top = `${randomY}px`;
+    noBtn.style.left = `${targetX}px`;
+    noBtn.style.top = `${targetY}px`;
+    noBtn.style.transition = "all 0.2s ease-out";
 }
 
 noBtn.addEventListener("click", () => {
     if (noCount < messages.length) {
-        // Update message area
         const initialMessage = document.getElementById('message');
         updateMessage(messages[noCount], initialMessage);
 
         noCount++;
-
-        // Make the Yes button grow bigger and more prominent
-        const scale = 1 + (noCount * 0.3);
+        const scale = 1 + (noCount * 0.4);
         yesBtn.style.transform = `scale(${scale})`;
 
-        // Shake effect on the card
         document.querySelector('.glass-card').classList.add('shake');
         setTimeout(() => document.querySelector('.glass-card').classList.remove('shake'), 500);
     }
 
-    // Start running away after 4 clicks
-    if (noCount >= 4) {
-        moveNoButton();
-    }
+    // Teleport once on click to make it harder
+    const cardRect = card.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+    const targetX = Math.random() * (cardRect.width - btnRect.width - 40) + cardRect.left + 20;
+    const targetY = Math.random() * (cardRect.height - btnRect.height - 40) + cardRect.top + 20;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = `${targetX}px`;
+    noBtn.style.top = `${targetY}px`;
 });
 
 // Success Sequence
