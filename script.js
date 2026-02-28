@@ -152,7 +152,7 @@ yesBtn.addEventListener("click", () => {
         giftBox.classList.add('open');
         setTimeout(() => {
             giftBox.style.display = 'none';
-            typeEffect("You are the best diduuuu in the entire world! 💖<br>I’m so lucky to have you always by my side. ✨<br>Let's celebrate with lots of chocolates! 🍫🍭", successMsg);
+            typeEffect("You are the best diduuuu in the entire world! 💖<br>I’m so lucky to have you always by my side.", successMsg);
         }, 500);
     }, { once: true });
 });
