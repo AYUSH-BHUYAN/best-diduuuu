@@ -309,10 +309,24 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 117, 140, 0.2);
+    background: rgba(255, 117, 140, 0.4);
     backdrop-filter: blur(10px);
     z-index: 5000;
     animation: fadeIn 0.5s forwards;
+}
+
+#hug-overlay.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .hug-emoji {
