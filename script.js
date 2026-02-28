@@ -12,6 +12,84 @@ const messages = [
     "You're breaking my heart! 💔"
 ];
 
+// Magical Sakura Trail System
+const canvas = document.getElementById('trail-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Particle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 8 + 4;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+        this.gravity = 0.05;
+        this.color = `hsl(${Math.random() * 20 + 340}, 100%, 80%)`;
+        this.alpha = 1;
+        this.rotation = Math.random() * 360;
+        this.rotationSpeed = Math.random() * 10 - 5;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravity;
+        this.alpha -= 0.01;
+        this.rotation += this.rotationSpeed;
+    }
+
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation * Math.PI / 180);
+        ctx.beginPath();
+        // Draw a heart or petal shape
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(-this.size / 2, -this.size / 2, -this.size, this.size / 3, 0, this.size);
+        ctx.bezierCurveTo(this.size, this.size / 3, this.size / 2, -this.size / 2, 0, 0);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.alpha;
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+function handleParticles() {
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].alpha <= 0) {
+            particles.splice(i, 1);
+            i--;
+        }
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    handleParticles();
+    requestAnimationFrame(animate);
+}
+animate();
+
+// Mouse tracking for background blooms & trail
+document.addEventListener('mousemove', (e) => {
+    document.body.style.setProperty('--mouse-x', e.clientX + 'px');
+    document.body.style.setProperty('--mouse-y', e.clientY + 'px');
+
+    // Add new particles on move
+    for (let i = 0; i < 2; i++) {
+        particles.push(new Particle(e.clientX, e.clientY));
+    }
+});
+
 // Smooth "No" button escape logic
 noBtn.addEventListener("mouseover", () => {
     if (noCount >= 4) {
