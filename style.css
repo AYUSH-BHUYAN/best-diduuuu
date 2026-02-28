@@ -1,0 +1,182 @@
+:root {
+    --primary-pink: #ff758c;
+    --secondary-pink: #ff7eb3;
+    --success-green: #4caf50;
+    --danger-red: #f44336;
+    --glass-bg: rgba(255, 255, 255, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --text-color: #2d3436;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+/* Dynamic Background Blobs */
+.blob-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    filter: blur(80px);
+}
+
+.blob {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: var(--primary-pink);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: move 20s infinite alternate linear;
+}
+
+.blob:nth-child(2) {
+    background: #a29bfe;
+    left: 50%;
+    top: 20%;
+    animation-delay: -5s;
+    width: 400px;
+    height: 400px;
+}
+
+.blob:nth-child(3) {
+    background: #fab1a0;
+    left: 20%;
+    top: 60%;
+    animation-delay: -10s;
+}
+
+@keyframes move {
+    from {
+        transform: translate(-10%, -10%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(110%, 110%) rotate(360deg);
+    }
+}
+
+/* Glassmorphism Card */
+.container {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 500px;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    text-align: center;
+}
+
+.title {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ff758c, #ff7eb3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.message-box {
+    min-height: 80px;
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+    color: #636e72;
+    line-height: 1.5;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    height: 60px;
+}
+
+.btn {
+    padding: 12px 32px;
+    border-radius: 50px;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-yes {
+    background: linear-gradient(45deg, var(--success-green), #81c784);
+    color: white;
+}
+
+.btn-yes:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+}
+
+.btn-no {
+    background: white;
+    color: var(--danger-red);
+    border: 1px solid rgba(244, 67, 54, 0.2);
+}
+
+.btn-no:active {
+    transform: scale(0.9);
+}
+
+/* Celebration Hearts */
+.heart {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    animation: floatUp 4s ease-in forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1.2);
+    }
+
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.credit {
+    position: fixed;
+    bottom: 20px;
+    font-size: 0.9rem;
+    color: #b2bec3;
+    z-index: 10;
+}
