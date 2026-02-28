@@ -48,24 +48,26 @@ noBtn.addEventListener("click", () => {
     moveNoButton();
 });
 
+// Success Sequence
 yesBtn.addEventListener("click", () => {
-    // Attempt to play music (might need user interaction first)
-    music.play().catch(e => console.log("Audio play blocked: ", e));
+    music.play().catch(e => console.log("Audio play blocked"));
 
-    // Smooth transition for background
+    document.getElementById('initial-state').classList.add('hidden');
+    document.getElementById('success-state').classList.remove('hidden');
+
     document.body.style.background = "linear-gradient(135deg, #ff9a9e, #fad0c4)";
-
-    // Success content
-    message.innerHTML = "";
-    typeEffect("Yayyyyyyy 💖<br>You are the best diduuuu in the world! I’m lucky to have you always ✨");
-
-    // Celebration
     heartBurst();
 
-    // Hide buttons after "Yes"
-    noBtn.style.display = "none";
-    yesBtn.style.transform = "scale(1)";
-    yesBtn.style.pointerEvents = "none";
+    const giftBox = document.querySelector('.gift-box');
+    const successMsg = document.getElementById('success-message');
+
+    giftBox.addEventListener('click', () => {
+        giftBox.classList.add('open');
+        setTimeout(() => {
+            giftBox.style.display = 'none';
+            typeEffect("You are the best diduuuu in the entire world! 💖<br>I’m so lucky to have you always by my side. ✨<br>Let's celebrate with lots of chocolates! 🍫🍭", successMsg);
+        }, 500);
+    }, { once: true });
 });
 
 function updateMessage(text) {
@@ -76,16 +78,16 @@ function updateMessage(text) {
     }, 200);
 }
 
-function typeEffect(text) {
+function typeEffect(text, element) {
     let i = 0;
-    message.innerHTML = "";
+    element.innerHTML = "";
     const interval = setInterval(() => {
         if (i < text.length) {
             if (text.substr(i, 4) === "<br>") {
-                message.innerHTML += "<br>";
+                element.innerHTML += "<br>";
                 i += 4;
             } else {
-                message.innerHTML += text.charAt(i);
+                element.innerHTML += text.charAt(i);
                 i++;
             }
         } else {
