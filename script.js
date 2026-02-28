@@ -79,15 +79,27 @@ function animate() {
 }
 animate();
 
-// Mouse tracking for background blooms & trail
+// 3D Parallax Tilt Logic
+const card = document.querySelector('.glass-card');
 document.addEventListener('mousemove', (e) => {
+    // Background parallax blobs
     document.body.style.setProperty('--mouse-x', e.clientX + 'px');
     document.body.style.setProperty('--mouse-y', e.clientY + 'px');
+
+    // 3D Card Tilt Math
+    const xAxis = (window.innerWidth / 2 - e.clientX) / 25;
+    const yAxis = (window.innerHeight / 2 - e.clientY) / 25;
+    card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
 
     // Add new particles on move
     for (let i = 0; i < 2; i++) {
         particles.push(new Particle(e.clientX, e.clientY));
     }
+});
+
+// Reset tilt on mouse leave
+card.addEventListener('mouseleave', () => {
+    card.style.transform = `rotateY(0deg) rotateX(0deg)`;
 });
 
 // Smooth "No" button escape logic
@@ -139,11 +151,17 @@ noBtn.addEventListener("click", () => {
 yesBtn.addEventListener("click", () => {
     music.play().catch(e => console.log("Audio play blocked"));
 
-    document.getElementById('initial-state').classList.add('hidden');
-    document.getElementById('success-state').classList.remove('hidden');
+    // Trigger Magical World Transition
+    const overlay = document.getElementById('magic-overlay');
+    overlay.classList.add('active');
 
-    document.body.style.background = "linear-gradient(135deg, #ff9a9e, #fad0c4)";
-    heartBurst();
+    setTimeout(() => {
+        document.getElementById('initial-state').classList.add('hidden');
+        document.getElementById('success-state').classList.remove('hidden');
+        document.body.style.background = "linear-gradient(135deg, #ff758c, #ff7eb3)";
+        overlay.classList.remove('active');
+        heartBurst();
+    }, 800);
 
     const giftBox = document.querySelector('.gift-box');
     const successMsg = document.getElementById('success-message');
