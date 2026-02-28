@@ -201,9 +201,28 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Ultimate Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(255, 117, 140, 0.4);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+}
+
 .btn-yes {
     background: linear-gradient(45deg, var(--success-green), #81c784);
     color: white;
+    animation: pulse 2s infinite ease-in-out;
 }
 
 .btn-yes:hover {
@@ -219,6 +238,115 @@ body {
 
 .btn-no:active {
     transform: scale(0.9);
+}
+
+/* Glow Mode */
+.glow-mode {
+    animation: backgroundGlow 5s infinite alternate;
+}
+
+@keyframes backgroundGlow {
+    from {
+        filter: brightness(1) saturate(1);
+    }
+
+    to {
+        filter: brightness(1.2) saturate(1.5) drop-shadow(0 0 20px #fff);
+    }
+}
+
+/* Blur Background */
+.blur-bg .liquid-bg,
+.blur-bg .blob-container {
+    filter: blur(20px);
+    opacity: 0.1;
+}
+
+/* Surprise Popups */
+.cute-popup {
+    position: fixed;
+    padding: 10px 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    color: var(--primary-pink);
+    pointer-events: none;
+    z-index: 2000;
+    animation: popupFade 2s forwards ease-out;
+}
+
+@keyframes popupFade {
+    0% {
+        transform: translateY(0) scale(0);
+        opacity: 0;
+    }
+
+    20% {
+        transform: translateY(-20px) scale(1.1);
+        opacity: 1;
+    }
+
+    80% {
+        transform: translateY(-40px) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-60px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Auto Hug */
+#hug-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 117, 140, 0.2);
+    backdrop-filter: blur(10px);
+    z-index: 5000;
+    animation: fadeIn 0.5s forwards;
+}
+
+.hug-emoji {
+    font-size: 150px;
+    animation: heartbeat 1s infinite;
+}
+
+.hug-text {
+    font-size: 2rem;
+    font-family: 'Pacifico', cursive;
+    color: white;
+    margin-top: 20px;
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.2);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.15);
+    }
+
+    60% {
+        transform: scale(1);
+    }
 }
 
 /* Celebration Hearts */
