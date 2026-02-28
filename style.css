@@ -180,3 +180,88 @@ body {
     color: #b2bec3;
     z-index: 10;
 }
+
+/* Gift & Success States */
+.hidden {
+    display: none;
+}
+
+.gift-container {
+    font-size: 80px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0) rotate(0);
+    }
+
+    40% {
+        transform: translateY(-30px) rotate(10deg);
+    }
+
+    60% {
+        transform: translateY(-15px) rotate(-10deg);
+    }
+}
+
+.gift-box.open {
+    animation: explode 0.5s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+/* Mouse Awareness for Blobs */
+body {
+    --mouse-x: 0px;
+    --mouse-y: 0px;
+}
+
+.blob:nth-child(1) {
+    transform: translate(calc(var(--mouse-x) * 0.05), calc(var(--mouse-y) * 0.05));
+}
+
+.blob:nth-child(2) {
+    transform: translate(calc(var(--mouse-x) * -0.05), calc(var(--mouse-y) * -0.05));
+}
