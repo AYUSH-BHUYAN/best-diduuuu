@@ -14,7 +14,9 @@ const messages = [
 
 // Smooth "No" button escape logic
 noBtn.addEventListener("mouseover", () => {
-    moveNoButton();
+    if (noCount >= 4) {
+        moveNoButton();
+    }
 });
 
 function moveNoButton() {
@@ -34,18 +36,25 @@ function moveNoButton() {
 
 noBtn.addEventListener("click", () => {
     if (noCount < messages.length) {
-        updateMessage(messages[noCount]);
+        // Update message area
+        const initialMessage = document.getElementById('message');
+        updateMessage(messages[noCount], initialMessage);
+
         noCount++;
 
         // Make the Yes button grow bigger and more prominent
-        const scale = 1 + (noCount * 0.2);
+        const scale = 1 + (noCount * 0.3);
         yesBtn.style.transform = `scale(${scale})`;
 
         // Shake effect on the card
         document.querySelector('.glass-card').classList.add('shake');
         setTimeout(() => document.querySelector('.glass-card').classList.remove('shake'), 500);
     }
-    moveNoButton();
+
+    // Start running away after 4 clicks
+    if (noCount >= 4) {
+        moveNoButton();
+    }
 });
 
 // Success Sequence
@@ -70,11 +79,11 @@ yesBtn.addEventListener("click", () => {
     }, { once: true });
 });
 
-function updateMessage(text) {
-    message.style.opacity = 0;
+function updateMessage(text, element) {
+    element.style.opacity = 0;
     setTimeout(() => {
-        message.textContent = text;
-        message.style.opacity = 1;
+        element.textContent = text;
+        element.style.opacity = 1;
     }, 200);
 }
 
