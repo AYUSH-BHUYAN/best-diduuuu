@@ -186,6 +186,9 @@ yesBtn.addEventListener("click", () => {
     playSound('celebrate');
     if (sounds.bg) sounds.bg.play().catch(() => { });
 
+    // Hide No button since it's now in the body
+    noBtn.style.display = "none";
+
     const overlay = document.getElementById('magic-overlay');
     overlay.classList.add('active');
 
