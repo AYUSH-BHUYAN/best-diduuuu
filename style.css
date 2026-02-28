@@ -23,6 +23,18 @@ body {
     font-family: 'Inter', sans-serif;
     overflow: hidden;
     color: var(--text-color);
+    cursor: none;
+    /* Hide default cursor to use custom trail */
+}
+
+#trail-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
 }
 
 /* Dynamic Background Blobs */
